@@ -6,24 +6,25 @@
 * [Model](https://drive.google.com/open?id=16JrWEedwaZFVZYvn1woPKCuWx85Ghzkp) without the top fully connected layers
 
 --------------------------------------------------------------
-- Clone this repo
+# Clone this repo
 	
 
-- install dependencies
+# install dependencies
 
-- Change vggish_params.py::
-
-
-	SOUND_FILES = '/mnt/409602D09602C67E/Files/Downloads/blind_dl/Dataset'
-    # weight path
-    WEIGHTS_PATH = 'vggish_audioset_weights_without_fc2.h5'
-    WEIGHTS_PATH_TOP = 'vggish_audioset_weights.h5'
+# Change vggish_params.py::
 
 
-- Run it::
+
+	SOUND_FILES = '/mnt/409602D09602C67E/Files/Downloads/blind_dl/Dataset'   
+    weight path   
+    WEIGHTS_PATH = 'vggish_audioset_weights_without_fc2.h5'   
+    WEIGHTS_PATH_TOP = 'vggish_audioset_weights.h5'    
+
+
+# Run it::
 
 
 	python evaluation.py
 
 
-That's it!!
+# That's it!!
