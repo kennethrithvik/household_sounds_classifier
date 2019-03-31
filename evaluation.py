@@ -8,25 +8,24 @@ from scipy.io import wavfile
 from sklearn import svm
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import classification_report,confusion_matrix
+from sklearn.metrics import classification_report, confusion_matrix
 import linecache
 
 from keras.models import Model
 from keras.layers import GlobalAveragePooling2D
 
 import sys
+
 sys.path.append("../")
 sys.path.append("./")
-#sys.path.append("./blare_base_classifier/keras_vggish")
-#sys.path.append("./blare_base_classifier/models")
+# sys.path.append("./blare_base_classifier/keras_vggish")
+# sys.path.append("./blare_base_classifier/models")
 from vggish import VGGish
 from preprocess_sound import preprocess_sound
 import vggish_params as params
 
-
-
-
 sound_files = params.SOUND_FILES
+
 
 # In[]
 def loading_data(files_names, labels, sound_extractor):
@@ -38,13 +37,13 @@ def loading_data(files_names, labels, sound_extractor):
     label = np.zeros((seg_num * sample_num,))
 
     for i in range(len(files_names)):
-        print(i,files_names[i])
+        print(i, files_names[i])
         sound_file = sound_files + '/' + files_names[i]
         sr, wav_data = wavfile.read(sound_file)
 
         length = sr * seg_len  # 5s segment
         range_high = len(wav_data) - length
-        if range_high <=0:
+        if range_high <= 0:
             continue
         seed(1)  # for consistency and replication
         random_start = randint(range_high, size=seg_num)
@@ -65,11 +64,11 @@ def loading_data(files_names, labels, sound_extractor):
 # In[]
 if __name__ == '__main__':
 
-    sound_model = VGGish(include_top=False, load_weights=True)
+    sound_model = VGGish(include_top=True, load_weights=True)
 
-    x = sound_model.get_layer(name="conv4/conv4_2").output
-    output_layer = GlobalAveragePooling2D()(x)
-    sound_extractor = Model(input=sound_model.input, output=output_layer)
+    #x = sound_model.get_layer(name="conv4/conv4_2").output
+    #output_layer = GlobalAveragePooling2D()(x)
+    #sound_extractor = Model(input=sound_model.input, output=output_layer)
 
     labels = glob.glob(sound_files + '/*')
     labels = [x.split('/')[-1] for x in labels]
@@ -79,7 +78,7 @@ if __name__ == '__main__':
         wav_files = [[class_name + '/' + x.split('/')[-1], class_name] for x in wav_files]
         data_files.extend(wav_files)
     data_files = pd.DataFrame(data_files, columns=["file_path", "label"])
-    data_files=data_files[1:400]
+    data_files = data_files[1:400]
     le = LabelEncoder()
     le_fit = le.fit(data_files['label'])
     label_encoded = le_fit.transform(data_files['label'])
@@ -89,19 +88,17 @@ if __name__ == '__main__':
 
     # load training data
     print("loading training data...")
-    training_data, training_label = loading_data(X_train,y_train, sound_extractor)
+    training_data, training_label = loading_data(X_train, y_train, sound_model)
 
     # load testing data
     print("loading testing data...")
-    testing_data, testing_label = loading_data(X_test,y_test, sound_extractor)
+    testing_data, testing_label = loading_data(X_test, y_test, sound_model)
 
-    clf = svm.LinearSVC(C=0.01, dual=False)
+    clf = svm.SVC(kernel='rbf', gamma=1e-3)
     clf.fit(training_data, training_label.ravel())
 
     preds = clf.predict(testing_data)
     print(classification_report(le.inverse_transform(testing_label.astype('int')),
                                 le.inverse_transform(preds.astype('int'))))
     print(confusion_matrix(le.inverse_transform(testing_label.astype('int')),
-                                le.inverse_transform(preds.astype('int'))))
-
-
+                           le.inverse_transform(preds.astype('int'))))

@@ -105,7 +105,8 @@ def VGGish(load_weights=True, weights='audioset',
     if load_weights:
         if weights == 'audioset':
             if include_top:
-                model.load_weights(WEIGHTS_PATH_TOP)
+                print
+                model.load_weights(WEIGHTS_PATH_TOP, by_name=True)
             else:
                 model.load_weights(WEIGHTS_PATH)
         else:
