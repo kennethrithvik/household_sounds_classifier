@@ -18,7 +18,7 @@ See vggish_slim.py for more information.
 """
 
 # Architectural constants.
-NUM_FRAMES = 496  # Frames in input mel-spectrogram patch.
+NUM_FRAMES = 96  # Frames in input mel-spectrogram patch.
 NUM_BANDS = 64  # Frequency bands in input mel-spectrogram patch.
 EMBEDDING_SIZE = 128  # Size of embedding layer.
 
@@ -30,8 +30,8 @@ NUM_MEL_BINS = NUM_BANDS
 MEL_MIN_HZ = 125
 MEL_MAX_HZ = 7500
 LOG_OFFSET = 0.01  # Offset used for stabilized log of input mel-spectrogram.
-EXAMPLE_WINDOW_SECONDS = 4.96  # Each example contains 96 10ms frames
-EXAMPLE_HOP_SECONDS = 4.96     # with zero overlap.
+EXAMPLE_WINDOW_SECONDS = 0.96  # Each example contains 96 10ms frames
+EXAMPLE_HOP_SECONDS = 0.96     # with zero overlap.
 
 # Parameters used for embedding postprocessing.
 PCA_EIGEN_VECTORS_NAME = 'pca_eigen_vectors'
@@ -53,7 +53,7 @@ AUDIO_EMBEDDING_FEATURE_NAME = 'audio_embedding'
 
 # to modify for blare
 
-SOUND_FILES = '/mnt/409602D09602C67E/Files/Downloads/blind_dl/Dataset'
+SOUND_FILES = '/mnt/409602D09602C67E/Files/Downloads/data'#''/mnt/409602D09602C67E/Files/Downloads/blind_dl/Dataset'
 # weight path
 WEIGHTS_PATH = '/home/kenny/development/mtech/blindlistener/blare_base_classifier/models/vggish_audioset_weights_without_fc2.h5'
 WEIGHTS_PATH_TOP = '/home/kenny/development/mtech/blindlistener/blare_base_classifier/models/vggish_audioset_weights.h5'
