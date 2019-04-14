@@ -4,4 +4,4 @@ The python file followed by the path where your folder is (Make sure you have th
 
 Then second argument is the folder name 
 
-This will create 2 folders with different augmentation results 
+This will create 4 folders with different augmentation results 
