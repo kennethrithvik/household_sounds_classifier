@@ -1,4 +1,4 @@
- Execute : augment.py "C:/Users/chokkalingam/Downloads/blind/" "audio"
+ Execute : augment.py "/blind/" "audio"
 
 The python file followed by the path where your folder is (Make sure you have the backslash in the end of path )
 
